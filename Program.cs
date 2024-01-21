@@ -7,15 +7,15 @@
             var todos = new List<string>();
 
             Console.WriteLine("Привет мой друг!");
-            Console.WriteLine("Это программа позволяет создавать список заданий");
+            Console.WriteLine("Это программа позволяет создавать список задач");
             bool isExit = false;
             while (!isExit)
             {
                 Console.WriteLine("Заглавная или строчная буква без разницы");
                 Console.WriteLine();
-                Console.WriteLine("[S] Посмотреть все задания");
-                Console.WriteLine("[A] Добавить задание");
-                Console.WriteLine("[R] Удалить задание");
+                Console.WriteLine("[S] Посмотреть все задачи");
+                Console.WriteLine("[A] Добавить задачу");
+                Console.WriteLine("[R] Удалить задачу");
                 Console.WriteLine("[E] Выход");
                 Console.WriteLine();
 
@@ -49,58 +49,60 @@
 
             Console.ReadKey();
 
-            void AddTodo()
-            {
-                bool isTodosFill = false;
-                while (!isTodosFill)
-                {
-                    Console.WriteLine("Напиши название задания");
-                    var description = Console.ReadLine();
-                    Console.WriteLine();
-
-                    if (description == "")
-                    {
-                        Console.WriteLine("Пусто введите что-нибудь");
-                    }
-                    else if (todos.Contains(description))
-                    {
-                        Console.WriteLine("Введите уникальное todo!!!");
-                    }
-                    else
-                    {
-                        isTodosFill = true;
-                        todos.Add(description);
-                    }
-                }
-            }
-
             void SeeAllTodos()
             {
                 if (todos.Count == 0)
                 {
-                    Console.WriteLine("Список заданий пуст!");
+                    Console.WriteLine("Список задач пуст!");
+                    return;
                 }
-                else
+                for (int i = 0; i < todos.Count; i++)
                 {
-                    for (int i = 1; i < todos.Count; i++)
-                    {
-                        Console.WriteLine($"{i}. {todos[i]}");
-                    }
+                    Console.WriteLine($"{i + 1}. {todos[i]}");
+                }
+                Console.WriteLine();
+            }
+
+            void AddTodo()
+            {
+                string description;
+                do
+                {
+                    Console.WriteLine("Напиши название задачи");
+                    description = Console.ReadLine();
                     Console.WriteLine();
                 }
+                while (!isDescriptionValid(description));
+
+                todos.Add(description);
+            }
+
+            bool isDescriptionValid(string description)
+            {
+                if (description == "")
+                {
+                    Console.WriteLine("Пусто введите что-нибудь");
+                    return false;
+                }
+                if (todos.Contains(description))
+                {
+                    Console.WriteLine("Введи не повторяющееся название задачи!");
+                    return false;
+                }
+                return true;
             }
 
             void RemoveTodo()
             {
                 if (todos.Count == 0)
                 {
-                    Console.WriteLine("Список дел пуст!");
+                    Console.WriteLine("Список задач пуст!");
                     return;
                 }
                 bool isIndexValid = false;
                 while (!isIndexValid)
                 {
-                    Console.WriteLine("Выбери номер задания чтобы удалить его");
+                    Console.WriteLine("Выбери номер задачи чтобы удалить ее");
                     SeeAllTodos();
                     var userInput = Console.ReadLine();
 
@@ -114,11 +116,11 @@
                         var todoToBeRemoved = todos[index - 1];
                         todos.RemoveAt(index - 1);
                         isIndexValid = true;
-                        Console.WriteLine("Задание удалено за номером " + );
+                        Console.WriteLine("Задача удалена под номером " + todoToBeRemoved);
                     }
                     else
                     {
-                        Console.WriteLine("Нет такого задания под этим номером! Выбери действительный номер!");
+                        Console.WriteLine("Нет такой задачи под этим номером! Выбери действительный номер!");
                     }
 
 
